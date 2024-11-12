@@ -4,12 +4,11 @@ import "fmt"
 
 func main() {
 
-	fmt.Println(("Hello, World!"))
+	fmt.Println(("Failing to plan is planning to fail!"))
 	todos := Todos{}
 	storage := NewStorage[Todos]("todos.json")
-	fmt.Println("storage",storage)
 	storage.Load(&todos)
-	todos.toggle(1)
-	todos.print()
+	CmdFlags := NewCmdFlags()
+	CmdFlags.Execute(&todos)
 	storage.Save(todos)
 }
