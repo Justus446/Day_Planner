@@ -1,26 +1,30 @@
 [
  {
-  "Title": "Respond to emails",
+  "Title": "Go home",
   "Completed": false,
-  "CreatedAt": "2024-11-11T16:59:35.137132805+03:00",
-  "CompletedAt": null
+  "CreatedAt": "2024-11-14T13:50:51.477629166+03:00",
+  "CompletedAt": null,
+  "Deadline": "2024-11-14T17:00:00Z"
  },
  {
-  "Title": "Debug the code",
-  "Completed": true,
-  "CreatedAt": "2024-11-11T16:59:35.137132993+03:00",
-  "CompletedAt": "2024-11-12T09:54:31.146074065+03:00"
+  "Title": "Complete day planner app",
+  "Completed": false,
+  "CreatedAt": "2024-11-14T13:51:12.998064957+03:00",
+  "CompletedAt": null,
+  "Deadline": "2024-11-14T17:00:00Z"
  },
  {
-  "Title": "Prepare for the meeting",
+  "Title": "reminder pop up",
   "Completed": false,
-  "CreatedAt": "2024-11-11T16:59:35.13713315+03:00",
-  "CompletedAt": null
+  "CreatedAt": "2024-11-14T14:21:18.447890353+03:00",
+  "CompletedAt": null,
+  "Deadline": "2024-11-14T17:00:00Z"
  },
  {
-  "Title": "write last weeks reports",
+  "Title": "push dqay planner changes to github",
   "Completed": false,
-  "CreatedAt": "2024-11-12T10:57:29.170276438+03:00",
-  "CompletedAt": null
+  "CreatedAt": "2024-11-14T14:21:45.834400569+03:00",
+  "CompletedAt": null,
+  "Deadline": "2024-11-14T17:00:00Z"
  }
 ]
