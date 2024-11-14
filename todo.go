@@ -14,17 +14,24 @@ type todo struct {
 	Completed bool
 	CreatedAt time.Time
 	CompletedAt *time.Time
+	Deadline *time.Time
 }
 
 type Todos []todo
 
-func (todos *Todos) add(title string){
+func (todos *Todos) add(title string, deadline_optional ...time.Time) {
+	var deadline *time.Time
+
+	if len(deadline_optional) > 0 {
+		deadline = &deadline_optional[0]
+	}
 
 	todo := todo{
 		Title: title,
 		Completed: false,
 		CreatedAt: time.Now(),
 		CompletedAt: nil,
+		Deadline: deadline,
 	}
 
 	*todos = append(*todos, todo)
@@ -32,7 +39,7 @@ func (todos *Todos) add(title string){
 
 func (todos *Todos) validateIndex(index int) error{
 	if index < 0 || index >= len(*todos){
-		return fmt.Errorf("Invalid index")
+		return fmt.Errorf("index out of range")
 	}
 
 	return nil
@@ -84,26 +91,57 @@ func (todos *Todos) edit(index int, title string) error{
 func (todos *Todos) print(){
 
 	table := table.New(os.Stdout)
-	table.SetHeaders("#", "Title", "Completed", "Created At", "Completed At","Reaction")
+	table.SetHeaders("#", "Title", "Completed", "Created At", "Deadline","Completed At","Reaction")
 	table.SetRowLines(false)
 
 	for index, todo := range *todos{
 		completed := "❌"
 		completedAt := ""
-		reaction := "😞"
+		reaction := "👎"
+		deadline := ""
+		
 
 		if todo.Completed{
 			completed = "✅"
-			reaction = "😊🎊"
+			reaction = "😊👍"
 			if todo.CompletedAt != nil{
 				completedAt = todo.CompletedAt.Format("2006-01-02 15:04:05")
+
+				if todo.Deadline != nil && todo.CompletedAt.Before(*todo.Deadline) {
+					reaction = "😊👍🎉🎊"
+				}
 			}
 		}
 
-		table.AddRow(strconv.Itoa(index), todo.Title, completed, todo.CreatedAt.Format("2006-01-02 15:04:05"), completedAt, reaction)
+		if todo.Deadline != nil{
+			deadline = todo.Deadline.Format("2006-01-02 15:04")
 
+		}
 
+		table.AddRow(strconv.Itoa(index), todo.Title, completed, todo.CreatedAt.Format("2006-01-02 15:04:05"), deadline, completedAt, reaction)
 	}
 
 	table.Render()
+}
+
+
+func (todos *Todos) refresh(to_delete string) {
+    var result Todos
+
+    for _, todo := range *todos {
+        if to_delete == "completed" {
+            if !todo.Completed {
+                result = append(result, todo)
+            }
+        } else if to_delete == "pending" {
+            if todo.Completed {
+                result = append(result, todo)
+            }
+        } else {
+            // Clear all elements
+            result = result[:0]
+        }
+    }
+
+    *todos = result
 }
