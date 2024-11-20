@@ -23,15 +23,17 @@ func (todos *Todos) add(title string, deadline_optional ...time.Time) {
 	var deadline *time.Time
 
 	if len(deadline_optional) > 0 {
-		deadline = &deadline_optional[0]
+		local_time_deadline := ParseLocalTime(deadline_optional[0])
+		deadline = &local_time_deadline
+
 	}
 
 	todo := todo{
-		Title: title,
-		Completed: false,
-		CreatedAt: time.Now(),
+		Title:       title,
+		Completed:   false,
+		CreatedAt:   time.Now().In(time.Now().Location()), 
 		CompletedAt: nil,
-		Deadline: deadline,
+		Deadline:    deadline,
 	}
 
 	*todos = append(*todos, todo)
