@@ -2,7 +2,11 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 	"time"
+
+	"github.com/aquasecurity/table"
 )
 
 type todo struct {
@@ -74,4 +78,32 @@ func (todos *Todos) edit(index int, title string) error{
 
 	return nil
 
+}
+
+
+func (todos *Todos) print(){
+
+	table := table.New(os.Stdout)
+	table.SetHeaders("#", "Title", "Completed", "Created At", "Completed At","Reaction")
+	table.SetRowLines(false)
+
+	for index, todo := range *todos{
+		completed := "❌"
+		completedAt := ""
+		reaction := "😞"
+
+		if todo.Completed{
+			completed = "✅"
+			reaction = "😊🎊"
+			if todo.CompletedAt != nil{
+				completedAt = todo.CompletedAt.Format("2006-01-02 15:04:05")
+			}
+		}
+
+		table.AddRow(strconv.Itoa(index), todo.Title, completed, todo.CreatedAt.Format("2006-01-02 15:04:05"), completedAt, reaction)
+
+
+	}
+
+	table.Render()
 }
